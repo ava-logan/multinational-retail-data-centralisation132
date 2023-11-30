@@ -4,7 +4,7 @@ with open('db_creds.yaml', 'r') as file:
 
 import sqlalchemy as sa
 import pandas as pd
-from sa import create_engine
+from sqlalchemy import create_engine
 
 class DatabaseConnector:
     #used to connect and upload data to database
