@@ -16,8 +16,8 @@ class DatabaseConnector:
             creds_dict[key]=value
         return creds_dict    
 
-    #def init_db_engine(creds_dict):
-        #engine = create_engine(f"{RDS_DATABASE}+{DBAPI}://{username}:{password}@{host}:{port}/{database_name}")
+    def init_db_engine(data):
+        engine = create_engine(data)
         #reads read_db_cred and initialise and returns an sqalchemy database engine 
 
     #def list_db_tables():
