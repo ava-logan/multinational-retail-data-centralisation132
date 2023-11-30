@@ -1,4 +1,4 @@
-DATABASE_TYPE: postgres
+DATABASE_TYPE: postgresql
 DBAPI: psycopg2
 HOST: data-handling-project-readonly.cq2e8zno855e.eu-west-1.rds.amazonaws.com
 USER: aicore_admin

@@ -1,5 +1,4 @@
 import yaml 
-import sqlalchemy as sa
 import pandas as pd
 from sqlalchemy import create_engine
 
@@ -48,7 +47,7 @@ class DatabaseConnector:
                 port = value    
 
         engine = create_engine(f"{database_type}+{dbapi}://{user}:{password}@{host}:{port}/{database}")
-        #engine.connect()
+        engine.connect()
         #print(engine)
         #reads read_db_cred and initialise and returns an sqalchemy database engine 
 
