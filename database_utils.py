@@ -6,9 +6,9 @@ with open('db_creds.yaml', 'r') as file:
     db_creds = yaml.safe_load(file)
 
 class DatabaseConnector:
-    def __init__(self, data, engine):
+    def __init__(self, data):
         self.data = data
-        self.engine = engine
+        self.engine = DatabaseConnector.init_db_engine(self)
     #used to connect and upload data to database
 
     def read_db_creds(self):
@@ -48,15 +48,19 @@ class DatabaseConnector:
                 port = value    
 
         self.engine = create_engine(f"{database_type}+{dbapi}://{user}:{password}@{host}:{port}/{database}")
-        self.engine.connect()
+        return self.engine
+        
+    def connect_engine(self):
+        return self.engine.connect()
         #reads read_db_cred and initialise and returns an sqalchemy database engine 
 
     def list_db_tables(self):
         # table names are ['legacy_store_details', 'legacy_users', 'orders_table']
         from sqlalchemy import inspect 
-        self.engine.connect()
+        DatabaseConnector.connect_engine(self) #connects to engine
         inspector = inspect(self.engine)
         table_names = inspector.get_table_names()
+        print(table_names)
             
          #useds engine from init_db_engine to list all tables
 
