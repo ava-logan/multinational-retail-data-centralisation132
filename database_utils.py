@@ -56,14 +56,13 @@ class DatabaseConnector:
 
     def list_db_tables(self):
         # table names are ['legacy_store_details', 'legacy_users', 'orders_table']
+        #useds engine from init_db_engine to list all tables
         from sqlalchemy import inspect 
         DatabaseConnector.connect_engine(self) #connects to engine
         inspector = inspect(self.engine)
         table_names = inspector.get_table_names()
         print(table_names)
             
-         #useds engine from init_db_engine to list all tables
 
 
 yaml_engine = DatabaseConnector(db_creds)
-yaml_engine.list_db_tables()
