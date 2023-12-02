@@ -1,0 +1,23 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "pagila",
+            "database": "Pagila",
+            "username": "postgres"
+        },
+        {
+            "previewLimit": 50,
+            "server": "data-handling-project-readonly.cq2e8zno855e.eu-west-1.rds.amazonaws.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "DB",
+            "database": "postgres",
+            "username": "aicore_admin",
+            "password": "AiCore2022"
+        }
+    ]
+}

@@ -62,6 +62,7 @@ class DatabaseConnector:
         inspector = inspect(self.engine)
         table_names = inspector.get_table_names()
         print(table_names)
+        
             
 
 

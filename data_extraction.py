@@ -15,15 +15,19 @@ class DataExtractor:
     
     def read_rds_table(self):
     #extract the table containing the data and return a pandas dataframe
-        conn = instance_1.connect_engine()
+        engine = self.instance.connect_engine()
         print('Connecting engine...')
-        extracted_df = pd.read_sql(self.table_name, conn)
-        print(extracted_df)
-        print(type(extracted_df))
+        extracted_df = pd.read_sql(self.table_name, engine)
+        return extracted_df
+
+    def upload_to_db(self):
+        engine = self.instance.connect_engine()
+        upload_ready_extracted_df = DataExtractor.read_rds_table(self)
+        upload_ready_extracted_df.to_sql(f'{self.table_name}', engine)
 
 #connect to engine instance 
 #produce a df using table name 
 
 legacy_users_data = DataExtractor(instance_1, 'legacy_users') 
-legacy_users_data.read_rds_table()
+legacy_users_data.upload_to_db()
 
