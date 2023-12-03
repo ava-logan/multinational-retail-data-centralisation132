@@ -6,8 +6,6 @@ from sqlalchemy import text #??
 from database_utils import DatabaseConnector #the methods to connect and extract
 from database_utils import yaml_engine as instance_1 #the instance
 
-    
-
 class DataExtractor:
     #Utility class used to extract data from different data sources - included CSv file, API and S3
     # table names are ['legacy_store_details', 'legacy_users', 'orders_table']

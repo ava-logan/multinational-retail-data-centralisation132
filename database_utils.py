@@ -5,10 +5,12 @@ from sqlalchemy import create_engine
 with open('db_creds.yaml', 'r') as file:
     db_creds = yaml.safe_load(file)
 
+with open('sales_data_creds.yaml', 'r') as file:
+    sales_data_creds = yaml.safe_load(file)
+
 class DatabaseConnector:
     def __init__(self, data):
         self.data = data
-        self.engine = DatabaseConnector.init_db_engine(self)
     #used to connect and upload data to database
 
     def read_db_creds(self):
@@ -19,18 +21,14 @@ class DatabaseConnector:
             creds_dict[key] = value
         return creds_dict    
 
+    def init_test(self):
+        print(f'printing user...{self.user}')
+
     def init_db_engine(self):
         #required inputs to create an engine 
         #password included here - gitignore?
         #wouldnt work if the keys were not as expected 
         #seems silly to create a method but would be useful for automation
-        database_type = 0
-        dbapi = 0
-        host = 0 
-        user = 0
-        password = 0 
-        database = 0
-        port = 5432
         for key,value in self.data.items():
             if key == "DATABASE_TYPE":
                 database_type = value
@@ -47,8 +45,8 @@ class DatabaseConnector:
             if key == "PORT":
                 port = value    
 
-        self.engine = create_engine(f"{database_type}+{dbapi}://{user}:{password}@{host}:{port}/{database}")
-        return self.engine
+                engine = create_engine(f"{database_type}+{dbapi}://{user}:{password}@{host}:{port}/{database}")
+                print(type(engine))
         
     def connect_engine(self):
         return self.engine.connect()
@@ -64,6 +62,7 @@ class DatabaseConnector:
         print(table_names)
         
             
-
-
 yaml_engine = DatabaseConnector(db_creds)
+
+sales_data_engine = DatabaseConnector(sales_data_creds)
+sales_data_engine.init_db_engine()
