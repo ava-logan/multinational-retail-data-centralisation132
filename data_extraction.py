@@ -1,9 +1,11 @@
 import pandas as pd
 import yaml
+import tabula
 import database_utils as dbu
-from sqlalchemy import text
+from sqlalchemy import text #??
 from database_utils import DatabaseConnector #the methods to connect and extract
 from database_utils import yaml_engine as instance_1 #the instance
+
     
 
 class DataExtractor:
@@ -23,10 +25,8 @@ class DataExtractor:
     def upload_to_db(self):
         engine = self.instance.connect_engine()
         upload_ready_extracted_df = DataExtractor.read_rds_table(self)
-        upload_ready_extracted_df.to_sql(f'{self.table_name}', engine)
+        upload_ready_extracted_df.to_sql(f'{self.table_name}', engine, if_exists='replace')
 
-#connect to engine instance 
-#produce a df using table name 
 
 legacy_users_data = DataExtractor(instance_1, 'legacy_users') 
 legacy_users_data.upload_to_db()
