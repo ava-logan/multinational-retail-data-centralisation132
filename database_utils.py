@@ -38,19 +38,11 @@ class DatabaseConnector:
             creds_dict[key] = value
         return creds_dict
 
-    def init_db_engine(self):
-        print(type(self.engine))
-        
-    def connect_engine(self):
-        return self.engine.connect()
-        #reads read_db_cred and initialise and returns an sqalchemy database engine 
-
     def list_db_tables(self):
         # table names are ['legacy_store_details', 'legacy_users', 'orders_table']
         #useds engine from init_db_engine to list all tables
         from sqlalchemy import inspect 
-        print(self.host)
-        #self.engine.connect() #connects to engine
+        print(type(self.engine)) #connects to engine
         #inspector = inspect(self.engine)
         #table_names = inspector.get_table_names()
         #print(table_names)
@@ -59,4 +51,4 @@ class DatabaseConnector:
 yaml_engine = DatabaseConnector(db_creds)
 sales_data_engine = DatabaseConnector(sales_data_creds)
 
-yaml_engine.init_db_engine()
+yaml_engine.list_db_tables()
