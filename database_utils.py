@@ -11,6 +11,14 @@ with open('sales_data_creds.yaml', 'r') as file:
 class DatabaseConnector:
     def __init__(self, data):
         self.data = data
+        self.database_type = 0
+        self.dbapi = 0 
+        self.host = 0 
+        self.user = 0
+        self.password = 0  
+        self.database = 0   
+        self.port = 0
+        self.engine = 0
     #used to connect and upload data to database
 
     def read_db_creds(self):
@@ -31,22 +39,22 @@ class DatabaseConnector:
         #seems silly to create a method but would be useful for automation
         for key,value in self.data.items():
             if key == "DATABASE_TYPE":
-                database_type = value
+                self.database_type = value
             if key == "DBAPI":
-                dbapi = value 
+                self.dbapi = value 
             if key == "HOST":
-                host = value 
+               self.host = value 
             if key == "USER":
-                user = value
+                self.user = value
             if key == "PASSWORD":
-                password = value  
+                self.password = value  
             if key == "DATABASE":
-                database = value   
+                self.database = value   
             if key == "PORT":
-                port = value    
+                self.port = value    
 
-                engine = create_engine(f"{database_type}+{dbapi}://{user}:{password}@{host}:{port}/{database}")
-                print(type(engine))
+                self.engine = create_engine(f"{self.database_type}+{self.dbapi}://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
+                print(self.engine)
         
     def connect_engine(self):
         return self.engine.connect()
