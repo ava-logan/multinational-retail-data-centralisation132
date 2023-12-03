@@ -29,26 +29,31 @@ class DatabaseConnector:
 
                 self.engine = create_engine(f"{self.database_type}+{self.dbapi}://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
 
+    def connect_engine(self):
+        self.engine.connect()
 
-    def read_db_creds(self):
-    #read creds in yaml and return dictionary
-    #print(type(db_creds)) returns dict type - needed to format other sources?
+    def read_db_creds(self): #print(type(db_creds)) returns dict type - needed to format other sources?
         creds_dict = {}
         for key, value in self.data.items():
             creds_dict[key] = value
         return creds_dict
 
-    def list_db_tables(self):
-        # table names are ['legacy_store_details', 'legacy_users', 'orders_table']
-        #useds engine from init_db_engine to list all tables
+    def list_db_tables(self): # table names are ['legacy_store_details', 'legacy_users', 'orders_table']
         from sqlalchemy import inspect 
-        print(type(self.engine)) #connects to engine
-        #inspector = inspect(self.engine)
-        #table_names = inspector.get_table_names()
-        #print(table_names)
+        self.engine.connect() #connects to engine
+        inspector = inspect(self.engine)
+        table_names = inspector.get_table_names()
+        return table_names 
+
+    def read_rds_table(self, table_name):   
+        extracted_df = pd.read_sql_table(table_name, self.engine)
+        print(extracted_df)
+
+    def upload_to_db(self, dataframe, table_name):
+        upload_ready_extracted_df = DatabaseConnector.read_rds_table(self)
+        upload_ready_extracted_df.to_sql('self.table_name', self.engine, if_exists='replace')    
         
-            
 yaml_engine = DatabaseConnector(db_creds)
 sales_data_engine = DatabaseConnector(sales_data_creds)
 
-yaml_engine.list_db_tables()
+yaml_engine.read_rds_table('orders_table')
