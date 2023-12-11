@@ -30,7 +30,7 @@ class DatabaseConnector:
                 self.engine = create_engine(f"{self.database_type}+{self.dbapi}://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
 
     def connect_engine(self):
-        self.engine.connect()
+        return self.engine.connect()
 
     def read_db_creds(self): #print(type(db_creds)) returns dict type - needed to format other sources?
         creds_dict = {}
@@ -47,13 +47,17 @@ class DatabaseConnector:
 
     def read_rds_table(self, table_name):   
         extracted_df = pd.read_sql_table(table_name, self.engine)
-        print(extracted_df)
+        return extracted_df
 
-    def upload_to_db(self, dataframe, table_name):
-        upload_ready_extracted_df = DatabaseConnector.read_rds_table(self)
-        upload_ready_extracted_df.to_sql('self.table_name', self.engine, if_exists='replace')    
+    #def upload_to_db(self, dataframe, table_name):
+        #upload_ready_extracted_df = DatabaseConnector.read_rds_table(self)
+        #upload_ready_extracted_df.to_sql('self.table_name', DatabaseConnector., if_exists='replace')    
         
 yaml_engine = DatabaseConnector(db_creds)
 sales_data_engine = DatabaseConnector(sales_data_creds)
 
-yaml_engine.read_rds_table('orders_table')
+def upload_table_to_local(ul_table_name):
+    ul_extracted_df = yaml_engine.read_rds_table(ul_table_name) #print ul_extracted_df successful
+    ul_extracted_df.to_sql(f'{ul_table_name}', sales_data_engine.connect_engine(), if_exists='replace')
+
+upload_table_to_local('legacy_users')
