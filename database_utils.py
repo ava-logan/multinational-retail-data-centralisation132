@@ -69,7 +69,17 @@ class DataCleaning:
         data = data[data['continent'].isin(valid_continents)]
         return data
 
-    #def clean_legacy_users():
+    def clean_legacy_users():
+        data = pd.read_sql_table('legacy_users', yaml_engine.connect_engine())
+        valid_countries = ['Germany', 'United States', 'United Kingdom']
+        data = data[data['country'].isin(valid_countries)]
+        country_code_corrections = {'GGB': 'GB', 'DE': 'GM'}
+        data.replace(country_code_corrections, inplace=True)
+        valid_country_codes = ['GB', 'US', 'GM']
+        data = data[data['country_code'].isin(valid_country_codes)]
+        data.join_date = pd.to_datetime(data.join_date, infer_datetime_format=True, errors='coerce')
+        data.date_of_birth = pd.to_datetime(data.date_of_birth, infer_datetime_format=True, errors='coerce')
+        return data
 
     #def clean_orders_table():
 
