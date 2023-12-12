@@ -26,7 +26,8 @@
             "driver": "PostgreSQL",
             "name": "localhost",
             "database": "sales_data",
-            "username": "postgres"
+            "username": "postgres",
+            "password": "anahera"
         }
     ]
 }

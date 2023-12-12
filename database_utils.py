@@ -44,22 +44,37 @@ class DatabaseConnector:
         inspector = inspect(self.engine)
         table_names = inspector.get_table_names()
         return table_names 
-
+    
     def read_rds_table(self, table_name):   
         extracted_df = pd.read_sql_table(table_name, self.engine)
         return extracted_df
     
-
 yaml_engine = DatabaseConnector(db_creds) #the engine to connect to aws 
 sales_data_engine = DatabaseConnector(sales_data_creds) #the engine to connect to localhost sql
 
-def upload_table_to_local(ul_table_name):
-    ul_extracted_df = yaml_engine.read_rds_table(ul_table_name) #1. use aws engine 2. use table name in argument read  table 
-    print('Table read...')
-    ul_extracted_df.dropna()     
-    print('Nulls dropped...')                               #3. drops null values
-    ul_extracted_df = ul_extracted_df.drop_duplicates()          #4. drop exact duplicates
-    print('Duplicates dropped...')
-    ul_extracted_df.to_sql(f'{ul_table_name}', sales_data_engine.connect_engine(), if_exists='replace') #5. upload table to sql using 6. localhost engine
+class DataCleaning:
+    def clean_legacy_store():
+        data = pd.read_sql_table('legacy_store_details', yaml_engine.connect_engine())
+        data.drop(columns=['lat'], inplace=True)
+        data.longitude = pd.to_numeric(data.longitude, errors='coerce')
+        data.latitude = pd.to_numeric(data.latitude, errors='coerce')
+        data.opening_date = pd.to_datetime(data.opening_date, infer_datetime_format=True, errors='coerce')
+        valid_country_codes = ['DE', 'GB', 'US']
+        data = data[data['country_code'].isin(valid_country_codes)]
+        valid_store_types = ['Local', 'Super Store', 'Mall Kiosk', 'Outlet', 'Web Portal']
+        data = data[data['store_type'].isin(valid_store_types)]
+        continent_corrections = {'eeEurope': 'Europe', 'eeAmerica': 'America'}
+        data.replace(continent_corrections, inplace=True)
+        valid_continents = ['America', 'Europe']
+        data = data[data['continent'].isin(valid_continents)]
+        return data
 
-upload_table_to_local('legacy_store_details')
+    #def clean_legacy_users():
+
+    #def clean_orders_table():
+
+
+    
+    def upload_table_to_local(table_name):
+        upload_table = yaml_engine.read_rds_table(table_name)
+        upload_table.to_sql(f'{table_name}', sales_data_engine.connect_engine(), if_exists='replace') #5. upload table to sql using 6. localhost engine
