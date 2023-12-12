@@ -48,16 +48,18 @@ class DatabaseConnector:
     def read_rds_table(self, table_name):   
         extracted_df = pd.read_sql_table(table_name, self.engine)
         return extracted_df
+    
 
-    #def upload_to_db(self, dataframe, table_name):
-        #upload_ready_extracted_df = DatabaseConnector.read_rds_table(self)
-        #upload_ready_extracted_df.to_sql('self.table_name', DatabaseConnector., if_exists='replace')    
-        
-yaml_engine = DatabaseConnector(db_creds)
-sales_data_engine = DatabaseConnector(sales_data_creds)
+yaml_engine = DatabaseConnector(db_creds) #the engine to connect to aws 
+sales_data_engine = DatabaseConnector(sales_data_creds) #the engine to connect to localhost sql
 
 def upload_table_to_local(ul_table_name):
-    ul_extracted_df = yaml_engine.read_rds_table(ul_table_name) #print ul_extracted_df successful
-    ul_extracted_df.to_sql(f'{ul_table_name}', sales_data_engine.connect_engine(), if_exists='replace')
+    ul_extracted_df = yaml_engine.read_rds_table(ul_table_name) #1. use aws engine 2. use table name in argument read  table 
+    print('Table read...')
+    ul_extracted_df.dropna()     
+    print('Nulls dropped...')                               #3. drops null values
+    ul_extracted_df = ul_extracted_df.drop_duplicates()          #4. drop exact duplicates
+    print('Duplicates dropped...')
+    ul_extracted_df.to_sql(f'{ul_table_name}', sales_data_engine.connect_engine(), if_exists='replace') #5. upload table to sql using 6. localhost engine
 
-upload_table_to_local('legacy_users')
+upload_table_to_local('legacy_store_details')
