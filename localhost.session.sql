@@ -1,1 +1,1 @@
-select * from legacy_users
+select * from orders_table
