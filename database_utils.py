@@ -106,6 +106,9 @@ class DataCleaning:
         elif table_name != 'legacy_store_users' or 'legacy_users' or 'orders_table':
             print('Check you have typed in the table name correctly')
 
-        data.to_sql(table_name, sales_data_engine.connect_engine(), if_exists='replace') #5. upload table to sql using 6. localhost engine
+        data.to_sql(table_name, sales_data_engine.connect_engine(), if_exists='replace')
 
-DataCleaning.upload_table_to_local('orders_table')
+    def upload_pdf_to_local(data, name):
+        data.to_sql(name, sales_data_engine.connect_engine(), if_exists='replace')
+
+
