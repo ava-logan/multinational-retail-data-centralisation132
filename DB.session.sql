@@ -1,1 +1,0 @@
-select * from legacy_store_details
