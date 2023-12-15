@@ -94,6 +94,8 @@ class DataCleaning:
         data = pd.read_sql_table('orders_table', yaml_engine.connect_engine())
         data.drop(columns=['level_0'], inplace=True)
         data.drop(columns=['1'], inplace=True)
+        data.drop(columns=['first_name'], inplace=True)
+        data.drop(columns=['last_name'], inplace=True)
         return data
 
     def upload_table_to_local(table_name):
@@ -112,3 +114,4 @@ class DataCleaning:
         data.to_sql(name, sales_data_engine.connect_engine(), if_exists='replace')
 
 
+DataCleaning.upload_table_to_local('orders_table')
