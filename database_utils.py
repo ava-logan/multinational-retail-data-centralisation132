@@ -108,7 +108,7 @@ class DataCleaning:
 
         data.to_sql(table_name, sales_data_engine.connect_engine(), if_exists='replace')
 
-    def upload_pdf_to_local(data, name):
+    def upload_to_local(data, name):
         data.to_sql(name, sales_data_engine.connect_engine(), if_exists='replace')
 
 

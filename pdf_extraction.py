@@ -13,7 +13,5 @@ class pdf_cleaning:
     
     def upload_pdf():
         data = pdf_cleaning.retrieve_and_clean()
-        DataCleaning.upload_pdf_to_local(data, 'dim_card_details')
+        DataCleaning.upload_to_local(data, 'dim_card_details')
 
-
-pdf_cleaning.upload_pdf()
