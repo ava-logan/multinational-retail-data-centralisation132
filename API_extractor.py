@@ -44,7 +44,11 @@ class APIExtractor:
         return data
         
     def upload_data(header):
-        data = APIExtractor.clean_api(header)
+        #data = APIExtractor.clean_api(header)
+        data = pd.DataFrame({'column_1': [1, 2, 3], 'column_2': ['a', 'b', 'c']})
         SQLConnector.upload_to_local(data, 'dim_store_details')
          
-api_table = APIExtractor.create_dataframe(api_key)
+#api_table = APIExtractor.upload_data(api_key)
+
+data = pd.DataFrame({'column_1': [1, 2, 3], 'column_2': ['a', 'b', 'c']})
+SQLConnector.upload_to_local(data, 'dim_store_details')

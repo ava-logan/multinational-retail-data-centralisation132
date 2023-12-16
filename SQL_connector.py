@@ -26,13 +26,7 @@ class SQLConnector:
 
         self.engine = create_engine(f"{self.database_type}+{self.dbapi}://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}")
 
-    def read_db_creds(self): #print(type(db_creds)) returns dict type - needed to format other sources?
-        creds_dict = {}
-        for key, value in self.data.items():
-            creds_dict[key] = value
-        return creds_dict
-    
     def upload_to_local(data, name):
-        data.to_sql(name, sales_data_engine.connect_engine(), if_exists='replace')
+        data.to_sql(name, sales_data_engine.engine.connect(), if_exists='replace')
 
 sales_data_engine = SQLConnector(sales_data_creds) #the engine to connect to localhost sql
