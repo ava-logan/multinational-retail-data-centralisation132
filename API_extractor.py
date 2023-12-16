@@ -1,18 +1,16 @@
 import requests
-from database_utils import DataCleaning
+import pandas as pd
+from SQL_connector import SQLConnector
 api_key = {'x-api-key': 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'}
-#store_finder = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}'
 store_numbers = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
 
-def list_number_of_stores(url, header):
+def list_number_of_stores(url, header): #response = 451
     response = requests.get(url, headers=header)
     data = response.json()
     print(data)
 
-#list_number_of_stores(store_numbers, api_key)  #response 451
 class APIExtractor:
     def create_dataframe(header):
-        import pandas as pd
         column_names = APIExtractor.get_column_names(header)
         my_dataframe = pd.DataFrame()
         for x in range(451):
@@ -45,12 +43,8 @@ class APIExtractor:
         data = data[data['country_code'].isin(valid_country_codes)]
         return data
         
-    def upload_data(header): #change to use output of clean data after test
-        from database_utils import DataCleaning
+    def upload_data(header):
         data = APIExtractor.clean_api(header)
-        DataCleaning.upload_to_local(data, 'dim_store_details')
+        SQLConnector.upload_to_local(data, 'dim_store_details')
          
-#api_table = APIExtractor.create_dataframe(api_key)
-
-api_table.head()
-
+api_table = APIExtractor.create_dataframe(api_key)

@@ -1,8 +1,7 @@
 
-#takes in link as an argument and returns a pandas DataFrame
 import pandas as pd
 import tabula
-from database_utils import DataCleaning
+from SQL_connector import SQLConnector
 
 class PDF:
     def pdf_retrieve_and_clean():
@@ -13,5 +12,5 @@ class PDF:
     
     def upload_pdf():
         data = PDF.pdf_retrieve_and_clean()
-        DataCleaning.upload_to_local(data, 'dim_card_details')
+        SQLConnector.upload_to_local(data, 'dim_card_details')
 
