@@ -79,11 +79,12 @@ class RDSTable:
         if self.table_name == 'legacy_users':
             data = RDSTable.read_rds_table(self)
             data = CleanRDS.clean_legacy_users(data)
+            SQLConnector.upload_to_local(data, 'dim_user_2')
         if self.table_name == 'orders_table':
             data = RDSTable.read_rds_table(self)
             data = CleanRDS.clean_orders_table(data)
         
-        SQLConnector.upload_to_local(data, self.table_name)  
+        #SQLConnector.upload_to_local(data, self.table_name)  
 
 
 orders_table_instance = RDSTable(db_creds, 'orders_table')
