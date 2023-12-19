@@ -14,6 +14,7 @@ class APIExtractor:
         column_names = APIExtractor.get_column_names(header)
         my_dataframe = pd.DataFrame()
         for x in range(451):
+            print(x)
             store_finder = f'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{x}'
             response = requests.get(store_finder, headers=header)
             data = response.json()
@@ -33,21 +34,19 @@ class APIExtractor:
                 column_names.append(key)
         return column_names
     
-    def clean_api(header):
-        data = APIExtractor.create_dataframe(header)
-        valid_countries = ['Germany', 'United States', 'United Kingdom']
-        data = data[data['country'].isin(valid_countries)]
-        country_code_corrections = {'GGB': 'GB', 'DE': 'GM'}
-        data.replace(country_code_corrections, inplace=True)
-        valid_country_codes = ['GB', 'US', 'GM']
-        data = data[data['country_code'].isin(valid_country_codes)]
-        return data
+            #def clean_api(header):
+                #data = APIExtractor.create_dataframe(header)
+                #valid_countries = ['Germany', 'United States', 'United Kingdom']
+                #data = data[data['country'].isin(valid_countries)]
+                #country_code_corrections = {'GGB': 'GB', 'DE': 'GM'}
+                #data.replace(country_code_corrections, inplace=True)
+                #valid_country_codes = ['GB', 'US', 'GM']
+                #data = data[data['country_code'].isin(valid_country_codes)]
+                #return data
         
     def upload_data(header):
-        data = APIExtractor.clean_api(header)
+        data = APIExtractor.create_dataframe(header)
         SQLConnector.upload_to_local(data, 'dim_store_details')
          
-#api_table = APIExtractor.upload_data(api_key)
+APIExtractor.upload_data(api_key)
 
-column_names = APIExtractor.get_column_names(api_key)
-print(column_names)

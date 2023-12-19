@@ -16,7 +16,7 @@ class BucketCleaner:
         return df
         
     def clean_date_bucket(df):
-        valid_time_periods = ['Late_hours', 'Morning', 'Midday', 'Evening']
+        valid_time_periods = ['Late_Hours', 'Morning', 'Midday', 'Evening']
         df = df[df['time_period'].isin(valid_time_periods)]
         valid_months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
         df = df[df['month'].isin(valid_months)]
@@ -80,12 +80,12 @@ class Buckets:
         return df
 
     def upload_bucket(self):
-        data = Buckets.convert_to_df(self)
         if self.sql_name == 'dim_date_times':
             data = pd.read_json(self.local_path)
-            #clean_data = BucketCleaner.clean_date_bucket(data)
-            SQLConnector.upload_to_local(data, 'date_checker')
+            clean_data = BucketCleaner.clean_date_bucket(data)
+            SQLConnector.upload_to_local(clean_data, 'date_checker')
         if self.sql_name == 'dim_products':
+            data = pd.read_csv(self.local_path)
             clean_data = BucketCleaner.clean_products_bucket(data)
             SQLConnector.upload_to_local(clean_data, 'products_3')
 
