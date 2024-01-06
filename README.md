@@ -65,4 +65,8 @@ Used two joins to use data about the product and the datetimes, linked by the or
 
 <img width="655" alt="actual task 6" src="https://github.com/ava-logan/multinational-retail-data-centralisation132/assets/148722602/7e57baaf-a9ec-4cba-8008-6521d68fd9aa">
 
+### Task 9: Lead ###
+Used lead to find the average time difference between sales per year
+<img width="743" alt="av time diff" src="https://github.com/ava-logan/multinational-retail-data-centralisation132/assets/148722602/f5e3ea62-c12a-4d4f-b277-6ad2a29bfee8">
+
 
