@@ -53,5 +53,16 @@ After running the first code, it was clear three values were incorrect and could
 
 Data types could be assigned using 'SET' and 'USING' to convert to the specified type. If any values did not fit the new data type they would be flagged. In the case of 'staff_numbers' some of these had letters whilst being converted to numeric. During the first attempt these had been removed because it was unclear if it was a typo or an invalid input. After errors with the primary and foreign key arose, it was evident that these values were correct and the alphabetic characters needed to be removed. This was done manually using the same method as the miscellaneous values. 
 
+## 5. Querying the data ##
+
+### Task 4: Case ### 
+Used 'CASE' to regroup the data into 'Online' and 'Not Online'/offline
+
+<img width="556" alt="howmanysalesoffline" src="https://github.com/ava-logan/multinational-retail-data-centralisation132/assets/148722602/fb312a25-2c23-405d-8172-dff2bd6fc504">
+
+### Task 6: Double join ###
+Used two joins to use data about the product and the datetimes, linked by the orders table.
+
+<img width="655" alt="actual task 6" src="https://github.com/ava-logan/multinational-retail-data-centralisation132/assets/148722602/7e57baaf-a9ec-4cba-8008-6521d68fd9aa">
 
 
